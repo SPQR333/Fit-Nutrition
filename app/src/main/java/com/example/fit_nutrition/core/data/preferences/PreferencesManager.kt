@@ -1,11 +1,22 @@
-package com.example.fit_nutrition.presentation
-import android.content.Context
+package com.example.fit_nutrition.core.data.preferences
+
 import android.content.SharedPreferences
 
-class PreferencesManager(context: Context) {
-    private val preferences: SharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+class PreferencesManager(private val preferences: SharedPreferences) {
+
+    fun save(keyValue: Map<String, String>) {
+        preferences.edit().apply {
+            keyValue.entries.forEach { putString(it.key, it.value) }
+        }.apply()
+    }
+
+    fun getValues(keys: List<String>): Map<String, String> = mutableMapOf<String, String>().apply {
+        keys.forEach { put(it, preferences.getString(it, "") ?: "") }
+    }
+
 
     fun saveData(age: String, weight: String, height: String, gender: String) {
+        
         val editor = preferences.edit()
         editor.putString("AGE", age)
         editor.putString("WEIGHT", weight)

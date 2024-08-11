@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -47,6 +49,9 @@ android {
 
 
 dependencies {
+    implementation("com.google.dagger:dagger:2.51.1")
+    kapt("com.google.dagger:dagger-compiler:2.51.1")
+    compileOnly("javax.annotation:jsr250-api:1.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1")
     implementation("androidx.fragment:fragment-ktx:1.7.1")
     implementation("androidx.core:core-ktx:1.13.1")

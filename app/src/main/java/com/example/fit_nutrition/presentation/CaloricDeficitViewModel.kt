@@ -1,4 +1,3 @@
-package com.example.fit_nutrition.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.fit_nutrition.domain.CalculateCaloricDeficitUseCase
