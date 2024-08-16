@@ -1,8 +1,8 @@
 package com.example.fit_nutrition.profile.domain.model
 
 data class Profile(
-    val age: String,
-    val weight: String,
-    val height: String,
+    val age: Int,
+    val weight: Float,
+    val height: Float,
     val gender: String,
 )

@@ -8,32 +8,30 @@ class ProfileRepositoryImpl(
     private val preferencesManager: PreferencesManager
 ) : ProfileRepository {
     override suspend fun saveProfile(profile: Profile) {
-        preferencesManager.save(
-            mapOf(
-                KEY_AGE to profile.age,
-                KEY_WEIGHT to profile.weight,
-                KEY_HEIGHT to profile.height,
-                KEY_GENDER to profile.gender
-            )
+        preferencesManager.save(KEY_AGE, profile.age)
+        preferencesManager.save(KEY_WEIGHT, profile.weight)
+        preferencesManager.save(KEY_HEIGHT, profile.height)
+        preferencesManager.save(KEY_GENDER, profile.gender)
+    }
+
+    override suspend fun readProfile(): Profile {
+        val age = preferencesManager.getInt(KEY_AGE)
+        val weight = preferencesManager.getFloat(KEY_WEIGHT)
+        val height = preferencesManager.getFloat(KEY_HEIGHT)
+        val gender = preferencesManager.getString(KEY_GENDER)
+
+        return Profile(
+            age = age,
+            weight = weight,
+            height = height,
+            gender = gender
         )
     }
 
-    override fun readProfile(): Profile {
-        return preferencesManager.getValues(listOf(KEY_AGE, KEY_GENDER, KEY_HEIGHT, KEY_WEIGHT))
-            .let {
-                Profile(
-                    age = it.getOrDefault(KEY_AGE, ""),
-                    gender = it.getOrDefault(KEY_GENDER, ""),
-                    height = it.getOrDefault(KEY_HEIGHT, ""),
-                    weight = it.getOrDefault(KEY_WEIGHT, ""),
-                )
-            }
-    }
-
     private companion object {
-        const val KEY_AGE: String = "AGE"
-        const val KEY_WEIGHT: String = "WEIGHT"
-        const val KEY_HEIGHT: String = "HEIGHT"
-        const val KEY_GENDER: String = "GENDER"
+        private const val KEY_AGE: String = "AGE"
+        private const val KEY_WEIGHT: String = "WEIGHT"
+        private const val KEY_HEIGHT: String = "HEIGHT"
+        private const val KEY_GENDER: String = "GENDER"
     }
 }

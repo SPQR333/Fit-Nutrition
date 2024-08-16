@@ -1,12 +1,15 @@
 package com.example.fit_nutrition.domain
 
+import com.example.fit_nutrition.profile.domain.model.Profile
+
 class CalculateCaloricDeficitUseCase {
-    fun execute(age: Int, weight: Float, height: Float, isMale: Boolean): Double {
+    fun execute(profile: Profile): Double {
+        val isMale = profile.gender == "Male"
         // Рассчет калорийного дефицита (примерный)
         val bmr = if (isMale) {
-            (10 * weight) + (6.25 * height) - (5 * age) - 161
+            (10 * profile.weight) + (6.25 * profile.height) - (5 * profile.age) - 161
         } else {
-            (10 * weight) + (6.25 * height) - (5 * age) - 5
+            (10 * profile.weight) + (6.25 * profile.height) - (5 * profile.age) - 5
         }
 
         return bmr - 500 // 500 ккал дефицит для похудения

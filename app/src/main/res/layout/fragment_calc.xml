@@ -1,112 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.ui.profile.ProfileFragment"
-    >
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".profile.ui.profile.ProfileFragment">
 
         <EditText
-            android:id="@+id/Age"
+            android:id="@+id/et_age"
             style="@style/CustomEditTextStyle"
             android:layout_width="114dp"
             android:layout_height="44dp"
             android:layout_margin="16dp"
-            android:ems="10"
-            app:layout_constraintBottom_toTopOf="@+id/Height"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.511"
-            app:layout_constraintStart_toStartOf="parent"
+            android:inputType="number"
+            android:hint="age"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.366"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateClickableBoundsCheck" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:ems="10" />
 
         <EditText
-            android:id="@+id/Weight"
+            android:id="@+id/et_weight"
             style="@style/CustomEditTextStyle"
             android:layout_width="114dp"
             android:layout_height="43dp"
-            android:layout_marginStart="152dp"
-            android:layout_marginEnd="145dp"
-            android:ems="10"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:inputType="numberDecimal"
+            android:hint="weight"
+            app:layout_constraintTop_toBottomOf="@id/et_age"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.171"
-            tools:ignore="DuplicateClickableBoundsCheck,MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:ems="10"/>
 
         <EditText
-            android:id="@+id/Height"
+            android:id="@+id/et_height"
             style="@style/CustomEditTextStyle"
+            android:hint="height"
+            android:inputType="numberDecimal"
             android:layout_width="114dp"
             android:layout_height="44dp"
-            android:layout_margin="16dp"
-            android:ems="10"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintTop_toBottomOf="@id/et_weight"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:ems="10"
+            />
 
         <RadioGroup
-            android:id="@+id/radioGroupGender"
+            android:id="@+id/rg_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_height"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/radioButtonMale"
+                android:id="@+id/rb_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="Мужчина" />
 
             <RadioButton
-                android:id="@+id/radioButtonFemale"
+                android:id="@+id/rb_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Женщина" />
         </RadioGroup>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.393" />
-
         <TextView
-            android:id="@+id/resultTextView"
+            android:id="@+id/tv_calories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintTop_toBottomOf="@id/rg_gender"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroupGender"
-            app:layout_constraintVertical_bias="0.26" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Calories" />
 
+        <Button
+            android:id="@+id/btn_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_calories"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Высчитать" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

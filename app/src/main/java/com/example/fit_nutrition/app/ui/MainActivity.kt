@@ -2,7 +2,6 @@ package com.example.fit_nutrition.app.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fit_nutrition.R
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
 
-        val fragment = BaseFragment()
+        val fragment = ProfileFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.frag_container, fragment)
                 .commit()
