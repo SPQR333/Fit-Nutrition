@@ -6,19 +6,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.fit_nutrition.core.data.preferences.PreferencesManager
 import com.example.fit_nutrition.databinding.FragmentCalcBinding
-import com.example.fit_nutrition.domain.CalculateCaloricDeficitUseCase
 import com.example.fit_nutrition.profile.data.ProfileRepositoryImpl
+import com.example.fit_nutrition.profile.data.di.MyApplication
 import com.example.fit_nutrition.profile.domain.ProfileRepository
 import com.example.fit_nutrition.profile.domain.model.Profile
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: ProfileViewModel
+
 
     private val profileRepository: ProfileRepository by lazy {
         val profileSharedPreferences = requireContext().getSharedPreferences(
@@ -29,7 +35,7 @@ class ProfileFragment : Fragment() {
         ProfileRepositoryImpl(preferencesManager)
     }
 
-    private val viewModel: ProfileViewModel by createViewModelLazy(
+   /* private val viewModel: ProfileViewModel by createViewModelLazy(
         viewModelClass = ProfileViewModel::class,
         storeProducer = { viewModelStore },
         factoryProducer = {
@@ -39,13 +45,16 @@ class ProfileFragment : Fragment() {
             )
         }
     )
-
+*/
     private var binding: FragmentCalcBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.sync()
+
+        (requireActivity().application as MyApplication).appComponent.inject(this)
+
+        viewModel = ViewModelProvider(this,viewModelFactory)[ProfileViewModel::class.java]
     }
 
     override fun onCreateView(

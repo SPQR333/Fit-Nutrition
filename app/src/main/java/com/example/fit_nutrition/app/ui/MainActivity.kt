@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fit_nutrition.R
 import com.example.fit_nutrition.databinding.ActivityMainBinding
 import com.example.fit_nutrition.profile.ui.profile.ProfileFragment
+import com.example.fit_nutrition.profile.ui.profile.ProfileViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         if (savedInstanceState == null) {
 
         val fragment = ProfileFragment()
