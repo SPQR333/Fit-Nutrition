@@ -54,7 +54,6 @@ class ProfileFragment : Fragment() {
 
         (requireActivity().application as MyApplication).appComponent.inject(this)
 
-        viewModel = ViewModelProvider(this,viewModelFactory)[ProfileViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -62,8 +61,11 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         return FragmentCalcBinding.inflate(inflater, container, false)
-            .also { initButton() }
+            //.also { initButton() }
             .root
+
+        viewModel = ViewModelProvider(this,viewModelFactory)[ProfileViewModel::class.java]
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.contRes.collect { result ->
@@ -98,7 +100,7 @@ class ProfileFragment : Fragment() {
 
     }
 
-    private fun initButton() {
+   /* private fun initButton() {
         binding?.btnApply?.setOnClickListener {
             val selectedGenderId = binding?.rgGender?.checkedRadioButtonId
             val gender = if (selectedGenderId == binding?.rbMale?.id) "Male" else "Female"
@@ -120,7 +122,7 @@ class ProfileFragment : Fragment() {
             )
             )
         }
-    }
+    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,9 +1,11 @@
 package com.example.fit_nutrition.core.data.preferences
 
 import android.content.SharedPreferences
+import javax.inject.Inject
 
-class PreferencesManager(private val preferences: SharedPreferences) {
-
+class PreferencesManager @Inject  constructor(
+    private val preferences: SharedPreferences
+    ){
     fun save(key: String, value: Int) {
         preferences.edit().putInt(key, value).apply()
     }

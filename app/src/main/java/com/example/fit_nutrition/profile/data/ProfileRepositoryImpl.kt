@@ -3,8 +3,9 @@ package com.example.fit_nutrition.profile.data
 import com.example.fit_nutrition.core.data.preferences.PreferencesManager
 import com.example.fit_nutrition.profile.domain.ProfileRepository
 import com.example.fit_nutrition.profile.domain.model.Profile
+import javax.inject.Inject
 
-class ProfileRepositoryImpl(
+class ProfileRepositoryImpl @Inject constructor(
     private val preferencesManager: PreferencesManager
 ) : ProfileRepository {
     override suspend fun saveProfile(profile: Profile) {

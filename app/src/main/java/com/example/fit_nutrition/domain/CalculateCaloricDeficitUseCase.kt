@@ -1,8 +1,14 @@
 package com.example.fit_nutrition.domain
 
+import com.example.fit_nutrition.profile.domain.ProfileRepository
 import com.example.fit_nutrition.profile.domain.model.Profile
+import dagger.Binds
+import javax.inject.Inject
 
-class CalculateCaloricDeficitUseCase {
+
+class CalculateCaloricDeficitUseCase @Inject constructor(
+   private val repository: ProfileRepository
+) {
     fun execute(profile: Profile): Double {
         val isMale = profile.gender == "Male"
         // Рассчет калорийного дефицита (примерный)

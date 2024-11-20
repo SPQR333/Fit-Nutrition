@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    private val profileRepository: ProfileRepository,
     private val calculateCaloricDeficitUseCase: CalculateCaloricDeficitUseCase
 
 ) : ViewModel() {
@@ -26,28 +25,28 @@ class ProfileViewModel @Inject constructor(
     val contRes: Flow<String?>
         get() = _contRes
     private val _contRes = MutableStateFlow<String?>(null)
-    fun saveProfile(profile: Profile) {
+   /* fun saveProfile(profile: Profile) {
         viewModelScope.launch {
             profileRepository.saveProfile(profile)
         }
         sync()
-    }
+    }*/
 
-    fun sync() {
+  /*  fun sync() {
         viewModelScope.launch {
             val profile = profileRepository.readProfile()
             _content.value = profile
             calculateCaloricDeficitUseCase.execute(profile)
         }
-    }
+    }*/
 
 
-    fun calculateCalories(profile: Profile) {
+ /*   fun calculateCalories(profile: Profile) {
         viewModelScope.launch {
             val result = calculateCaloricDeficitUseCase.execute(profile)
             _contRes.value = result.toString()
         }
-    }
+    }*/
 
 
 }
