@@ -6,7 +6,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [RepositoryModule::class,AppModule::class,ViewModelModule::class])
+@Component(modules = [PreferencesModule::class,RepositoryModule::class,AppModule::class,ViewModelModule::class])
 interface ApplicationComponent {
 
     fun inject(fragment: ProfileFragment)

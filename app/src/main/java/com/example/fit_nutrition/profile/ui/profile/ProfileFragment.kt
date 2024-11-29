@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -24,108 +25,74 @@ class ProfileFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: ProfileViewModel
-
-
-    private val profileRepository: ProfileRepository by lazy {
-        val profileSharedPreferences = requireContext().getSharedPreferences(
-            "user_prefs",
-            Context.MODE_PRIVATE
-        )
-        val preferencesManager = PreferencesManager(profileSharedPreferences)
-        ProfileRepositoryImpl(preferencesManager)
-    }
-
-   /* private val viewModel: ProfileViewModel by createViewModelLazy(
-        viewModelClass = ProfileViewModel::class,
-        storeProducer = { viewModelStore },
-        factoryProducer = {
-            ProfileViewModelFactory(
-                profileRepository,
-                CalculateCaloricDeficitUseCase()
-            )
-        }
-    )
-*/
     private var binding: FragmentCalcBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        // Внедрение зависимостей через Dagger
         (requireActivity().application as MyApplication).appComponent.inject(this)
 
+        // Инициализация ViewModel через Dagger
+        viewModel = ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentCalcBinding.inflate(inflater, container, false)
-            //.also { initButton() }
-            .root
-
-        viewModel = ViewModelProvider(this,viewModelFactory)[ProfileViewModel::class.java]
-
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.contRes.collect { result ->
-                result?.let {
-                    binding?.tvCalories?.text = it
-                }
-            }
-        }
+        binding = FragmentCalcBinding.inflate(inflater, container, false)
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Настройка UI и кнопок
+        initButton()
+
+        // Подписка на данные ViewModel
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.content.collect { profile ->
-                    profile?.let {
-                        binding?.etAge?.setText(it.age)
-                        binding?.etHeight?.setText(it.height.toString())
-                        binding?.etWeight?.setText(it.weight.toString())
-
+                launch {
+                    viewModel.content.collect { profile ->
+                        profile?.let {
+                            binding?.etAge?.setText(it.age.toString())
+                            binding?.etHeight?.setText(it.height.toString())
+                            binding?.etWeight?.setText(it.weight.toString())
+                        }
                     }
                 }
 
-
-            }
-            viewModel.contRes.collect{result ->
-                result.let {
-                    binding?.tvCalories?.text = it
+                launch {
+                    viewModel.contRes.collect { result ->
+                        result?.let {
+                            binding?.tvCalories?.text = it
+                        }
+                    }
                 }
             }
         }
-
     }
 
-   /* private fun initButton() {
+    private fun initButton() {
         binding?.btnApply?.setOnClickListener {
             val selectedGenderId = binding?.rgGender?.checkedRadioButtonId
             val gender = if (selectedGenderId == binding?.rbMale?.id) "Male" else "Female"
 
-            viewModel.saveProfile(
-                Profile(
-                    age = binding?.etAge?.text.toString().toInt(),
-                    weight = binding?.etWeight?.text.toString().toFloat(),
-                    height = binding?.etHeight?.text.toString().toFloat(),
-                    gender = gender
-                )
+            val profile = Profile(
+                age = binding?.etAge?.text.toString().toIntOrNull() ?: 0,
+                weight = binding?.etWeight?.text.toString().toFloatOrNull() ?: 0f,
+                height = binding?.etHeight?.text.toString().toFloatOrNull() ?: 0f,
+                gender = gender
             )
-            viewModel.calculateCalories(
-                Profile(
-                    age = binding?.etAge?.text.toString().toInt(),
-                    weight = binding?.etWeight?.text.toString().toFloat(),
-                    height = binding?.etHeight?.text.toString().toFloat(),
-                    gender = gender
-            )
-            )
+
+            viewModel.saveProfile(profile)
+            viewModel.calculateCalories(profile)
         }
-    }*/
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        this.binding = null
+        binding = null // Освобождаем binding, чтобы избежать утечек памяти
     }
 }
